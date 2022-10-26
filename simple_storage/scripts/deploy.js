@@ -1,4 +1,4 @@
-const { ethers, network } = require("hardhat")
+const { ethers, network, run } = require("hardhat")
 
 
 async function main(){
@@ -9,7 +9,18 @@ async function main(){
    
    if(network.config.chainId === 42 && process.env.ETHERSCAN_API_KEY){
       await simpleStorage.deployTransaction.wait(6)
-      
+      await verify(simpleStorage.address, [])
+   }
+}
+
+const verify = async (contractAddress, args)=>{
+   try{
+      await run("verify:verify", {
+         contractAddress,
+         constructorArguments: args
+      })
+   }catch(e){
+      console.error(e)
    }
 }
 
