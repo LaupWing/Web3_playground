@@ -6,12 +6,16 @@ contract SimpleStorage {
 
    struct People {
       uint256 favoriteNumber;
-      string name;
+      address user;
    }
 
    People[] public people;
 
    mapping(address => uint256) public currentFavoriteNumber;
 
-   
+   function addAnotherFavoriteNumber(uint256 _favoriteNumber) public{
+      people.push(People(_favoriteNumber, msg.sender));
+      currentFavoriteNumber[msg.sender] = _favoriteNumber;
+      favoriteNumber = _favoriteNumber;
+   }
 }
