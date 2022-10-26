@@ -9,4 +9,6 @@ describe("SimpleStorage", function(){
       deployer = await getNamedAccounts()
       simpleStorage = await ethers.getContract("SimpleStorage", deployer)
    })
+
+   it("deployed contract correctly")
 })
