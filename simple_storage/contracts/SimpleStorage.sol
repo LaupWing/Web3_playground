@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 contract SimpleStorage {
-   uint256 public favoriteNumber = 69;
+   uint256 private favoriteNumber = 69;
 
    struct People {
       uint256 favoriteNumber;
@@ -17,5 +17,9 @@ contract SimpleStorage {
       people.push(People(_favoriteNumber, msg.sender));
       currentFavoriteNumber[msg.sender] = _favoriteNumber;
       favoriteNumber = _favoriteNumber;
+   }
+
+   function retrieve() public view returns(uint256){
+      return favoriteNumber;
    }
 }
