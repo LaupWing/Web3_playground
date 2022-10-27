@@ -5,8 +5,10 @@ describe("SimpleStorage", function () {
 
    let deployer
    let simpleStorage
+   let simpleStorageFactory
    beforeEach(async () => {
-      deployer = await getNamedAccounts()
+      simpleStorageFactory = await ethers.getContractFactory("SimpleStorage")
+      deployer = (await getNamedAccounts()).deployer
       simpleStorage = await ethers.getContract("SimpleStorage", deployer)
    })
 
