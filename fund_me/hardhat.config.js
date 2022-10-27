@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox")
+require('hardhat-deploy')
 
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
 const GOERI_RPC_URL = process.env.GOERI_RPC_URL || ""
