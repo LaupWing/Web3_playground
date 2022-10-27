@@ -43,7 +43,32 @@ contract Fundme {
          address funder = s_funders[funderIndex];
          s_addressToAmountFunded[funder] = 0;
       }
+      s_funders = new address[](0);
       (bool success,) = i_owner.call{value: address(this).balance}("");
       require(success);
+   }
+
+   function getAddressToAmountFunded(address fundingAddress)
+      public
+      view
+      returns (uint256)
+   {
+      return s_addressToAmountFunded[fundingAddress];
+   }
+
+   function getVersion() public view returns (uint256){
+      return s_pricefeed.version();
+   }
+
+   function getFunder(uint256 index) public view returns(address) {
+      return s_funders[index];
+   }
+
+   function getOwner() public view returns(address){
+      return i_owner;
+   }
+
+   function getPriceFeed() public view returns(AggregatorV3Interface){
+      return s_pricefeed;
    }
 }
