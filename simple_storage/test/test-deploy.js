@@ -1,14 +1,16 @@
 const { getNamedAccounts, ethers } = require("hardhat")
 
 
-describe("SimpleStorage", function(){
+describe("SimpleStorage", function () {
 
    let deployer
    let simpleStorage
-   beforeEach(async ()=>{
+   beforeEach(async () => {
       deployer = await getNamedAccounts()
       simpleStorage = await ethers.getContract("SimpleStorage", deployer)
    })
 
-   it("deployed contract correctly")
+   it("deployed contract correctly", async () => {
+      console.log(simpleStorage)
+   })
 })
