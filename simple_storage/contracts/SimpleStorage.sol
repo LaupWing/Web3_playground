@@ -16,7 +16,7 @@ contract SimpleStorage {
    mapping(address => uint256) public currentFavoriteNumber;
 
    function addAnotherFavoriteNumber(uint256 _favoriteNumber) public{
-      console.log("Setting current number to %s", _favoriteNumber);
+      // console.log("Setting current number to %s", _favoriteNumber);
       people.push(People(_favoriteNumber, msg.sender));
       currentFavoriteNumber[msg.sender] = _favoriteNumber;
       favoriteNumber = _favoriteNumber;

@@ -30,4 +30,12 @@ describe("SimpleStorage", function () {
       const currentValue = await simpleStorage.retrieve()
       expect(currentValue.toString()).to.equal(updatedValue)
    })
+
+   it("Should add people to struct and array", async()=>{
+      const [_, user1] = await ethers.getSigners()
+      const connectedContract1 = await simpleStorage.connect(user1)
+      await connectedContract1.addAnotherFavoriteNumber("70")
+      const stored = await simpleStorage.people(0)
+      expect(stored.user).to.equal(user1.address)
+   })
 })
