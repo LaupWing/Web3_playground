@@ -41,7 +41,7 @@ module.exports = {
       noColors: true,
       coinmarketcap: COINMARKETCAP_API_KEY
    },
-   namedAccount:{
+   namedAccounts:{
       deployer:{
          default: 0,
          1: 0 // Defaults to 0 whenever on the chainId of 1
