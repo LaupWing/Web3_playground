@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox")
 require('hardhat-deploy')
+require("dotenv").config()
 
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
 const GOERI_RPC_URL = process.env.GOERI_RPC_URL || ""
@@ -20,14 +21,16 @@ module.exports = {
          blockConfirmations: 6
       }
    },
-   solidity: [
-      {
-         version:"0.8.17"
-      },
-      {
-         version: "0.6.6"
-      }
-   ],
+   solidity:{
+      compilers:[
+         {
+            version:"0.8.17"
+         },
+         {
+            version: "0.6.6"
+         }
+      ]
+   } ,
    etherscan:{
       apiKey: ETHERSCAN_API_KEY
    },
