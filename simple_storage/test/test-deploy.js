@@ -23,4 +23,11 @@ describe("SimpleStorage", function () {
       const currentValue = await simpleStorage.retrieve()
       expect(currentValue.toString()).to.equal(startingValue)
    })
+   
+   it("Should update favorite number", async () => {
+      const updatedValue = "70"
+      await simpleStorage.addAnotherFavoriteNumber(updatedValue)
+      const currentValue = await simpleStorage.retrieve()
+      expect(currentValue.toString()).to.equal(updatedValue)
+   })
 })
