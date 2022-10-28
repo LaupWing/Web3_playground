@@ -9,6 +9,7 @@ describe("SimpleStorage", function () {
    beforeEach(async () => {
       simpleStorageFactory = await ethers.getContractFactory("SimpleStorage")
       deployer = (await getNamedAccounts()).deployer
+      await deployments.fixture(["all"])
       simpleStorage = await ethers.getContract("SimpleStorage", deployer)
    })
 

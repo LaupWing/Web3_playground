@@ -13,3 +13,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
    log(`SimpleStorage deployed at ${simpleStorage.address}`)
 }
+
+module.exports.tags = ["all", "simplestorage"]
