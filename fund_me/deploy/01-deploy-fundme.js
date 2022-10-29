@@ -32,3 +32,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       await verify(fundMe.address, [ethUsdPricefeedAddress])
    }
 }
+
+module.exports.tags = ["all", "fundMe"]
