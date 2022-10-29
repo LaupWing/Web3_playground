@@ -8,7 +8,7 @@ const INITIAL_PRICE = "200000000000"
 module.exports = async ({ getNamedAccounts, deployments }) => {
    const { log, deploy } = deployments
    const { deployer } = await getNamedAccounts()
-   const chainId = network.config.chainId
+   network.config.chainId
 
    if(developmentChains.includes(network.name)){
       log("Local network detected! Deploying mocks...")  
