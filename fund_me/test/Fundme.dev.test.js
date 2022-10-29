@@ -28,10 +28,10 @@ const { expect } = require("chai")
       })
 
       describe("fund", () => {
-         // it("Fails if you don't send enough ETH", async () => {
-         //    await expect(fundMe.fund()).to.be.revertedWith(
-         //       "You need to spend more ETH!"
-         //    )
-         // })
+         it("Fails if you don't send enough ETH", async () => {
+            await expect(fundMe.fund()).to.be.revertedWith(
+               "You need to spend more ETH"
+            )
+         })
       })
    })
