@@ -1,5 +1,6 @@
 const { network } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
 
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -11,7 +12,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
    if (isDevelopmentChain) {
       const ethUsdAggregator = await deployments.get("MockV3Aggregator")
       ethUsdPricefeedAddress = ethUsdAggregator.address
-   } else { 
+   } else {
       ethUsdPricefeedAddress = networkConfig[network.config.chainId]["ethUsdPriceFeed"]
    }
    log("-------------------------------------------------------")
@@ -24,10 +25,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
    })
 
    log(`FundMe deployed at ${fundMe.address}`)
-   if(
+   if (
       !isDevelopmentChain &&
       process.env.ETHERSCAN_API_KEY
-   ){
-      veri
+   ) {
+      await verify(fundMe.address, [ethUsdPricefeedAddress])
    }
 }

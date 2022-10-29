@@ -6,7 +6,7 @@ import "./PriceConverter.sol";
 
 error Fundme__NotOwner();
 
-contract Fundme {
+contract FundMe {
    using PriceConverter for uint256;
 
    uint256 public constant MINIMUM_USD = 50 * 10**18;
