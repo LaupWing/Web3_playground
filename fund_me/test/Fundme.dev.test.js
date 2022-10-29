@@ -53,11 +53,16 @@ const { expect } = require("chai")
             await fundMe.fund({ value: sendValue })
          })
 
-         it("withdraws ETH from a single user", async ()=>{
+         it("withdraws ETH from a single user", async () => {
             const startingFundBalance = await provider.getBalance(fundMe.address)
             const startingDeployerBalance = await provider.getBalance(deployer)
-            console.log(startingFundBalance.toString())
-            console.log(startingDeployerBalance.toString())
+
+            const transationResponse = await fundMe.withdraw()
+            const transactionReceipt = await transationResponse.wait()
+            const { gasUsed, effectiveGasPrice } = transactionReceipt
+            const gasCost = gasUsed.mul(effectiveGasPrice)
+            console.log(effectiveGasPrice.toString())
+            console.log(gasUsed.toString())
          })
       })
    })
