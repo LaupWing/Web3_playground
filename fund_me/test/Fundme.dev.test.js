@@ -34,10 +34,16 @@ const { expect } = require("chai")
             )
          })
 
-         it("updates the amount funded data structure", async ()=>{
-            await fundMe.fund({ value: sendValue})
+         it("updates the amount funded data structure", async () => {
+            await fundMe.fund({ value: sendValue })
             const response = await fundMe.getAddressToAmountFunded(deployer)
             expect(response.toString()).to.equal(sendValue.toString())
+         })
+
+         it("adds funder to array of funders", async () => {
+            await fundMe.fund({ value: sendValue })
+            const response = await fundMe.getFunder(0)
+            expect(response).to.equal(deployer)
          })
       })
    })
