@@ -46,4 +46,18 @@ const { expect } = require("chai")
             expect(response).to.equal(deployer)
          })
       })
+
+      describe("withdraw", () => {
+         const provider = ethers.provider
+         beforeEach(async () => {
+            await fundMe.fund({ value: sendValue })
+         })
+
+         it("withdraws ETH from a single user", async ()=>{
+            const startingFundBalance = await provider.getBalance(fundMe.address)
+            const startingDeployerBalance = await provider.getBalance(deployer)
+            console.log(startingFundBalance.toString())
+            console.log(startingDeployerBalance.toString())
+         })
+      })
    })
