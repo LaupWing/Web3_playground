@@ -28,10 +28,16 @@ const { expect } = require("chai")
       })
 
       describe("fund", () => {
-         it("Fails if you don't send enough ETH", async () => {
+         it("fails if you don't send enough ETH", async () => {
             await expect(fundMe.fund()).to.be.revertedWith(
                "You need to spend more ETH"
             )
+         })
+
+         it("updates the amount funded data structure", async ()=>{
+            await fundMe.fund({ value: sendValue})
+            const response = await fundMe.getAddressToAmountFunded(deployer)
+            expect(response.toString()).to.equal(sendValue.toString())
          })
       })
    })
