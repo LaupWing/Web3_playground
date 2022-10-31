@@ -61,8 +61,17 @@ const { expect } = require("chai")
             const transactionReceipt = await transationResponse.wait()
             const { gasUsed, effectiveGasPrice } = transactionReceipt
             const gasCost = gasUsed.mul(effectiveGasPrice)
-            console.log(effectiveGasPrice.toString())
-            console.log(gasUsed.toString())
+            
+            const endingFundMeBalance = await provider.getBalance(fundMe.address)
+            const endingDeployerBalance = await provider.getBalance(deployer)
+
+            expect(endingFundMeBalance.toString()).to.equal("0")
+            expect(
+               startingFundBalance.add(startingDeployerBalance).toString()
+            ).to.equal(
+               endingDeployerBalance.add(gasCost).toString()
+            )
+            
          })
       })
    })
