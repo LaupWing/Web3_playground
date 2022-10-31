@@ -106,5 +106,14 @@ const { expect } = require("chai")
                expect(await fundMe.getAddressToAmountFunded(accounts[i].address)).to.equal("0")
             }
          })
+
+         it("only allows the owner to withdraw", async()=>{
+            const accounts = await ethers.getSigners()
+            const fundMeConnectedContract = await fundMe.connect(accounts[i])
+            await expect(fundMeConnectedContract.withdraw())
+               .to
+               .be
+               .revertedWithCustomError(fundMe, "Fundme__NotOwner")
+         })
       })
    })
