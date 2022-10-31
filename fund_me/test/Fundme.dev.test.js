@@ -61,7 +61,7 @@ const { expect } = require("chai")
             const transactionReceipt = await transationResponse.wait()
             const { gasUsed, effectiveGasPrice } = transactionReceipt
             const gasCost = gasUsed.mul(effectiveGasPrice)
-            
+
             const endingFundMeBalance = await provider.getBalance(fundMe.address)
             const endingDeployerBalance = await provider.getBalance(deployer)
 
@@ -71,7 +71,40 @@ const { expect } = require("chai")
             ).to.equal(
                endingDeployerBalance.add(gasCost).toString()
             )
+
+         })
+
+         it("allows us to withdraw with mutliple funders", async () => {
+            const accounts = await ethers.getSigners()
+
+            for (i = 1; i < 6; i++) {
+               const fundMeConnectedContract = await fundMe.connect(
+                  accounts[i]
+               )
+               await fundMeConnectedContract.fund({ value: sendValue })
+            }
+            const startingFundBalance = await provider.getBalance(fundMe.address)
+            const startingDeployerBalance = await provider.getBalance(deployer)
+
+            const transationResponse = await fundMe.withdraw()
+            const transactionReceipt = await transationResponse.wait()
+            const { gasUsed, effectiveGasPrice } = transactionReceipt
+            const withdrawCost = gasUsed.mul(effectiveGasPrice)
+            console.log(`Total gascost is: ${withdrawCost}`)
+            console.log(`Gas used is: ${gasUsed}`)
+            console.log(`Gas price is: ${effectiveGasPrice}`)
+
+            const endingFundMeBalance = await provider.getBalance(fundMe.address)
+            const endingDeployerBalance = await provider.getBalance(deployer)
+
+            expect(startingFundBalance.add(startingDeployerBalance).toString())
+               .to.equal(endingDeployerBalance.add(withdrawCost).toString())
             
+            await expect(fundMe.getFunder(0)).to.be.reverted
+
+            for(i = 1; i < 6; i++){
+               expect(await fundMe.getAddressToAmountFunded(accounts[i].address)).to.equal("0")
+            }
          })
       })
    })
