@@ -4,7 +4,7 @@ import { ethers } from "./ethers-5.2.esm.min.js"
 
 document.getElementById("connectButton").addEventListener("click", connect)
 document.getElementById("fundButton").addEventListener("click", fund)
-const withdrawButton = document.getElementById("withdrawButton")
+document.getElementById("withdrawButton").addEventListener("click",withdraw)
 const balanceButton = document.getElementById("balanceButton")
 balanceButton.addEventListener("click", getBalance)
 
@@ -46,7 +46,7 @@ async function withdraw(){
 
    if(typeof window.ethereum !== "undefined"){
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      await provider.send("eth_requestAccounts", [])
+      // await provider.send("eth_requestAccounts", [])
       const signer = provider.getSigner()
       const contract = new ethers.Contract(contractAddress, abi, signer)
 
