@@ -7,13 +7,42 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 error Lottery_NotEnoughETHEntered();
 
 contract Lottery is VRFConsumerBaseV2 {
-   uint256 private immutable i_entranceFee;
-   address payable[] private s_players;
+   enum RaffleState {
+      OPEN,
+      CALCULATING
+   }
+   // ChainLink VRF variables
    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
+   uint64 private immutable i_subscriptionId;
+   bytes32 private immutable i_gasLane;
+   uint32 private immutable i_callbackGasLimit;
+   uint16 private constant REQUEST_CONFIRMATIONS = 3;
+   uint32 private constant NUM_WORDS = 1;
 
-   constructor(address _vrfCoordinatorV2,uint256 _entranceFee) VRFConsumerBaseV2(_vrfCoordinatorV2){
-      i_entranceFee = _entranceFee;
+   // Lottery variables
+   uint256 private immutable i_interval;
+   uint256 private immutable i_entranceFee;
+   uint256 private s_lastTimestamp;
+   address private s_recentWinner;
+   address payable[] private s_players;
+   RaffleState private s_raffleState;
+
+   constructor(
+      address _vrfCoordinatorV2,
+      uint256 _entranceFee,
+      uint64 _subscriptionId,
+      bytes32 _gasLane,
+      uint256 _interval,
+      uint32 _callbackGasLimit
+   ) VRFConsumerBaseV2(_vrfCoordinatorV2){
       i_vrfCoordinator = VRFCoordinatorV2Interface(_vrfCoordinatorV2);
+      i_gasLane = _gasLane;
+      i_interval = _interval;
+      i_subscriptionId = _subscriptionId;
+      i_entranceFee = _entranceFee;
+      s_raffleState = RaffleState.OPEN;
+      s_lastTimestamp = block.timestamp;
+      i_callbackGasLimit = _callbackGasLimit;
    }
 
    function enterRaffle() public payable{
@@ -25,11 +54,11 @@ contract Lottery is VRFConsumerBaseV2 {
 
    function requestRandomWinner() external{
       i_vrfCoordinator.requestRandomWords(
-         gasLane,
-         s_subscriptionId,
-         requestConfirmations,
-         callbackGasLimit,
-         numWords
+         i_gasLane,
+         i_subscriptionId,
+         REQUEST_CONFIRMATIONS,
+         i_callbackGasLimit,
+         NUM_WORDS
       );
    }
 
