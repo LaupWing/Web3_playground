@@ -10,7 +10,7 @@ error Lottery__TransferFailed();
 error Lottery__LotteryNotOpen();
 
 contract Lottery is VRFConsumerBaseV2 {
-   enum RaffleState {
+   enum LotteryState {
       OPEN,
       CALCULATING
    }
@@ -28,10 +28,10 @@ contract Lottery is VRFConsumerBaseV2 {
    uint256 private s_lastTimestamp;
    address private s_recentWinner;
    address payable[] private s_players;
-   RaffleState private s_raffleState;
+   LotteryState private s_lotteryState;
 
-   event RequestedRaffleWinner(uint256 indexed requestId);
-   event RaffleEnter(address indexed player);
+   event RequestedLotteryWinner(uint256 indexed requestId);
+   event LotteryEnter(address indexed player);
    event WinnerPicked(address indexed player);
 
    constructor(
@@ -47,7 +47,7 @@ contract Lottery is VRFConsumerBaseV2 {
       i_interval = _interval;
       i_subscriptionId = _subscriptionId;
       i_entranceFee = _entranceFee;
-      s_raffleState = RaffleState.OPEN;
+      s_lotteryState = LotteryState.OPEN;
       s_lastTimestamp = block.timestamp;
       i_callbackGasLimit = _callbackGasLimit;
    }
@@ -56,7 +56,11 @@ contract Lottery is VRFConsumerBaseV2 {
       if(msg.value < i_entranceFee){
          revert Lottery__NotEnoughETHEntered();
       }
+      if(s_lotteryState != LotteryState.OPEN){
+         revert Lottery__LotteryNotOpen();
+      }
       s_players.push(payable(msg.sender));
+      emit LotteryEnter(msg.sender);
    }
 
    function requestRandomWinner() external{
