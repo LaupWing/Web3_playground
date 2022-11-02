@@ -27,6 +27,10 @@ contract Lottery is VRFConsumerBaseV2 {
    address payable[] private s_players;
    RaffleState private s_raffleState;
 
+   event RequestedRaffleWinner(uint256 indexed requestId);
+   event RaffleEnter(address indexed player);
+   event WinnerPicked(address indexed player);
+
    constructor(
       address _vrfCoordinatorV2,
       uint256 _entranceFee,
