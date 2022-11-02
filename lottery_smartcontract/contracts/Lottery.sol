@@ -4,7 +4,10 @@ pragma solidity ^0.8.17;
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 
-error Lottery_NotEnoughETHEntered();
+error Lottery__UpkeepNotNeeded(uint256 currrentBalance, uint256 numPlayers, uint256 raffleState);
+error Lottery__NotEnoughETHEntered();
+error Lottery__TransferFailed();
+error Lottery__LotteryNotOpen();
 
 contract Lottery is VRFConsumerBaseV2 {
    enum RaffleState {
@@ -51,7 +54,7 @@ contract Lottery is VRFConsumerBaseV2 {
 
    function enterRaffle() public payable{
       if(msg.value < i_entranceFee){
-         revert Lottery_NotEnoughETHEntered();
+         revert Lottery__NotEnoughETHEntered();
       }
       s_players.push(payable(msg.sender));
    }
