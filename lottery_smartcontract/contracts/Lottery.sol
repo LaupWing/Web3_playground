@@ -3,13 +3,14 @@ pragma solidity ^0.8.17;
 
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 
 error Lottery__UpkeepNotNeeded(uint256 currrentBalance, uint256 numPlayers, uint256 raffleState);
 error Lottery__NotEnoughETHEntered();
 error Lottery__TransferFailed();
 error Lottery__LotteryNotOpen();
 
-contract Lottery is VRFConsumerBaseV2 {
+contract Lottery is VRFConsumerBaseV2, KeeperCompatibleInterface {
    enum LotteryState {
       OPEN,
       CALCULATING
@@ -63,14 +64,45 @@ contract Lottery is VRFConsumerBaseV2 {
       emit LotteryEnter(msg.sender);
    }
 
-   function requestRandomWinner() external{
-      i_vrfCoordinator.requestRandomWords(
+   function checkUpkeep(
+      bytes memory /* checkData */
+   ) 
+      public
+      view
+      override
+      returns (
+         bool upkeepNeeded,
+         bytes memory /* performData */
+      )
+   {
+      bool isOpen = LotteryState.OPEN == s_lotteryState;
+      bool timePassed = ((block.timestamp - s_lastTimestamp) > i_interval);
+      bool hasPlayers = s_players.length > 0;
+      bool hasBalance = address(this).balance > 0;
+      upkeepNeeded = (timePassed && isOpen && hasBalance && hasPlayers);
+      return (upkeepNeeded, "0x0");
+   }
+
+   function performUpkeep(
+      bytes calldata /* performData */
+   ) external override{
+      (bool upkeepNeeded, ) = checkUpkeep("");
+      if(!upkeepNeeded){
+         revert Lottery__UpkeepNotNeeded(
+            address(this).balance,
+            s_players.length,
+            uint256(s_lotteryState)
+         );
+      }
+      s_lotteryState = LotteryState.CALCULATING;
+      uint256 requestId = i_vrfCoordinator.requestRandomWords(
          i_gasLane,
          i_subscriptionId,
          REQUEST_CONFIRMATIONS,
          i_callbackGasLimit,
          NUM_WORDS
       );
+      emit RequestedLotteryWinner(requestId);
    }
 
    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) 
