@@ -77,5 +77,15 @@ module.exports = {
       player:{
          default: 1
       }
+   },
+   solidity:{
+      compilers:[
+         {
+            version: "0.8.7"
+         },
+         {
+            version: "0.4.24"
+         },
+      ]
    }
 }
