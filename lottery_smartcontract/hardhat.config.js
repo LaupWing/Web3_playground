@@ -51,5 +51,12 @@ module.exports = {
       localhost:{
          chainId: 31337
       },
-   }
+   },
+   etherscan:{
+      apiKey:{
+         goerli: ETHERSCAN_API_KEY,
+         polyogon: POLYGONSCN_API_KEY
+      }
+   },
+   
 }
