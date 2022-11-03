@@ -16,5 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       subscriptionId = transactionReceipt.events[0].args.subId
 
       await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
+   } else {
+      vrfCoordinatorV2Address
    }
 }
