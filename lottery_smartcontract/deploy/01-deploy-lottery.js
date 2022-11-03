@@ -32,7 +32,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       networkConfig[chainId]["keepersUpdateInterval"],
       networkConfig[chainId]["callbackGasLimit"]
    ]
-   console.log(waitBlockConfirmations)
+
    const lottery = await deploy("Lottery", {
       from: deployer,
       args,
@@ -40,15 +40,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       waitConfirmations: waitBlockConfirmations
    })
 
-   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-   //    log("Verifying...")
-   //    await verify(lottery.address, args)
-   // }
+   if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+      log("Verifying...")
+      await verify(lottery.address, args)
+   }
 
-   // log("Enter lottery command:")
-   // const networkName = network.name == "hardhat" ? "localhost" : network.name
-   // log(`npx hardhat run scripts/enterLottery.js --network ${networkName}`)
-   // log("------------------------------------------------------------")
+   log("Enter lottery command:")
+   const networkName = network.name == "hardhat" ? "localhost" : network.name
+   log(`npx hardhat run scripts/enterLottery.js --network ${networkName}`)
+   log("------------------------------------------------------------")
 }
 
 module.exports.tags = ["all", "lottery"]
