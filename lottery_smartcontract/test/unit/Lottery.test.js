@@ -38,7 +38,10 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             expect(player.address, contractPlayer)
          })
 
-         it("emit event on enter", async () => { })
+         it("emit event on enter", async () => {
+            await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.emit(lottery, "LotteryEnter")
+         })
+
 
       })
    })
