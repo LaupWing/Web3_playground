@@ -13,6 +13,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
          player = accounts[1]
          await deployments.fixture(["mocks", "lottery"])
          vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+
          lotteryContract = await ethers.getContract("Lottery")
          lottery = lotteryContract.connect(player)
          lotteryEntranceFee = await lottery.getEntranceFee()
@@ -47,10 +48,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
             await network.provider.request({ method: "evm_mine", params: [] })
             await lottery.performUpkeep([])
-            await expect(lottery.enterLottery({ value: lotteryEntranceFee }))
-               .to
-               .be
-               .reverted
+            await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.be.revertedWithCustomError(lottery, "Lottery__LotteryNotOpen")
+
          })
       })
    })
