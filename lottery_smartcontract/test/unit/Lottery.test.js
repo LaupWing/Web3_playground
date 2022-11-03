@@ -42,6 +42,9 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.emit(lottery, "LotteryEnter")
          })
 
+         it("doesn't allow entrance when raffle is calculating", async () => {
+            await lottery.getLottery({ value: lotteryEntranceFee })
 
+         })
       })
    })
