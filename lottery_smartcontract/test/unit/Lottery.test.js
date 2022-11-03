@@ -43,8 +43,11 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
          })
 
          it("doesn't allow entrance when raffle is calculating", async () => {
-            await lottery.getLottery({ value: lotteryEntranceFee })
-
+            // await lottery.enterLottery({ value: lotteryEntranceFee })
+            // await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+            // await network.provider.request({ method: "evm_mine", params: [] })
+            // await lottery.performUpkeep([])
+            // await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.be.revertedWithCustomError(lottery, "Lottery__LotteryNotOpen")
          })
       })
    })
