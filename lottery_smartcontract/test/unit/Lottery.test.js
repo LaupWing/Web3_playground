@@ -26,4 +26,11 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             expect(interval.toString(), networkConfig[network.config.chainId]["keepersUpdateInterval"])
          })
       })
+
+      describe("enterLottery", function () {
+         it("reverts when you don't pay enough", async () => {
+            await lottery.enterLottery({ value: lotteryEntranceFee })
+
+         })
+      })
    })
