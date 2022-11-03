@@ -29,8 +29,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
       describe("enterLottery", function () {
          it("reverts when you don't pay enough", async () => {
-            await lottery.enterLottery({ value: lotteryEntranceFee })
-
+            await expect(lottery.enterLottery()).to.be.revertedWithCustomError(lottery, "Lottery__NotEnoughETHEntered")
          })
       })
    })
