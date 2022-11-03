@@ -58,5 +58,11 @@ module.exports = {
          polyogon: POLYGONSCN_API_KEY
       }
    },
-   
+   gasReporter:{
+      enabled: REPORT_GAS,
+      currency: "USD",
+      outputFile: "gas-report.txt",
+      noColors: true,
+      // coinmarketcap: process.env.COINMARKETCAP_API_KEY
+   }
 }
