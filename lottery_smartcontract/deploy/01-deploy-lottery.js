@@ -16,7 +16,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
       const transactionReceipt = await transactionResponse.wait()
       subscriptionId = transactionReceipt.events[0].args.subId
-
       await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
    } else {
       vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
@@ -27,28 +26,29 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
    log("--------------------------------------------------------------------")
    const args = [
       vrfCoordinatorV2Address,
-      subscriptionId,
+      networkConfig[chainId]["lotteryEntranceFee"].toString(),
+      subscriptionId.toString(),
       networkConfig[chainId]["gasLane"],
       networkConfig[chainId]["keepersUpdateInterval"],
-      networkConfig[chainId]["lotteryEntranceFee"],
       networkConfig[chainId]["callbackGasLimit"]
    ]
+   console.log(waitBlockConfirmations)
    const lottery = await deploy("Lottery", {
-      deployer,
+      from: deployer,
       args,
       log: true,
       waitConfirmations: waitBlockConfirmations
    })
 
-   if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-      log("Verifying...")
-      await verify(lottery.address, args)
-   }
+   // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+   //    log("Verifying...")
+   //    await verify(lottery.address, args)
+   // }
 
-   log("Enter lottery command:")
-   const networkName = network.name == "hardhat" ? "localhost" : network.name
-   log(`npx hardhat run scripts/enterLottery.js --network ${networkName}`)
-   log("------------------------------------------------------------")
+   // log("Enter lottery command:")
+   // const networkName = network.name == "hardhat" ? "localhost" : network.name
+   // log(`npx hardhat run scripts/enterLottery.js --network ${networkName}`)
+   // log("------------------------------------------------------------")
 }
 
 module.exports.tags = ["all", "lottery"]
