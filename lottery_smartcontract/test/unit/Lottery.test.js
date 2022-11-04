@@ -71,5 +71,13 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             expect(lotteryState.toString()).equal("1")
             expect(upkeepNeeded).equal(false)
          })
+
+         it("returns false if enough time hasn't passed", async () => {
+            await lottery.enterLottery({ value: lotteryEntranceFee })
+            await network.provider.send("evm_increaseTime", [interval.toNumber() - 20])
+            await network.provider.request({ method: "evm_mine", params: [] })
+            const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
+            expect(upkeepNeeded).equal(false)
+         })
       })
    })
