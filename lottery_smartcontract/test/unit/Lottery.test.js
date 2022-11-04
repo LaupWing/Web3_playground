@@ -101,5 +101,18 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
          it("reverts if checkup is false", async () => {
             await expect(lottery.performUpkeep("0x")).to.be.revertedWithCustomError(lottery, "Lottery__UpkeepNotNeeded")
          })
+
+         it("updates the lottery state and emits a requestId", async () => {
+            await lottery.enterLottery({ value: lotteryEntranceFee })
+            await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+            await network.provider.request({ method: "evm_mine", params: [] })
+            const txResponse = await lottery.performUpkeep("0x")
+            const txReceipt = await txResponse.wait(1)
+            const lotteryState = await lottery.getLotteryState()
+            const requestId = txReceipt.events[1].args.requestId
+
+            expect(requestId.toNumber()).to.be.greaterThan(0)
+            expect(lotteryState).equal(1)
+         })
       })
    })
