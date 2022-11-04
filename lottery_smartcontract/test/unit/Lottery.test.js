@@ -43,7 +43,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.emit(lottery, "LotteryEnter")
          })
 
-         it("doesn't allow entrance when raffle is calculating", async () => {
+         it("doesn't allow entrance when lottery is calculating", async () => {
             await lottery.enterLottery({ value: lotteryEntranceFee })
             await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
             await network.provider.request({ method: "evm_mine", params: [] })
@@ -58,6 +58,18 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await network.provider.request({ method: "evm_mine", params: [] })
             const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
             expect(upkeepNeeded).to.equal(false)
+         })
+
+         it("returns false if lottery isn't open", async () => {
+            await lottery.enterLottery({ value: lotteryEntranceFee })
+            await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+            await network.provider.request({ method: "evm_mine", params: [] })
+            await lottery.performUpkeep([])
+            const lotteryState = await lottery.getLotteryState()
+            const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
+
+            expect(lotteryState.toString()).equal("1")
+            expect(upkeepNeeded).equal(false)
          })
       })
    })
