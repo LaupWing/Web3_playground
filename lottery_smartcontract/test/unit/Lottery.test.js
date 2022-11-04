@@ -1,4 +1,4 @@
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 const { network, ethers, deployments } = require("hardhat");
 const { developmentChains, networkConfig } = require("../../helper-hardhat-config");
 
@@ -86,6 +86,16 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await network.provider.request({ method: "evm_mine", params: [] })
             const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
             expect(upkeepNeeded).equal(true)
+         })
+      })
+
+      describe("performUpkeep", function () {
+         it("can only run if checkupkeep is true", async () => {
+            await lottery.enterLottery({ value: lotteryEntranceFee })
+            await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+            await network.provider.request({ method: "evm_mine", params: [] })
+            const tx = await lottery.performUpkeep("0x")
+            expect(tx).to.exist
          })
       })
    })
