@@ -122,5 +122,29 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
             await network.provider.request({ method: "evm_mine", params: [] })
          })
+
+         it("picks a winner, resets, and sends money", async () => {
+            const additonalEntrances = 3
+            const startingIndex = 2
+            for (let i = startingIndex; i < startingIndex + additonalEntrances; i++) {
+               lottery = lotteryContract.connect(accounts[i])
+            }
+            const startingTime = await lottery.getLastTimestamp()
+
+            await new Promise(async (resolve, reject) => {
+               lottery.once("WinnerPicked", async () => {
+                  console.log("WinnerPicked event fired!")
+                  console.log(startingTime, startingBalance)
+               })
+
+               const tx = await lottery.performUpkeep("0x")
+               const txReceipt = await tx.wait(1)
+               const startingBalance = await accounts[2].getBalance()
+               await vrfCoordinatorV2Mock.fulfillRandomWords(
+                  txReceipt.events[1].args.requestId,
+                  lottery.address
+               )
+            })
+         })
       })
    })
