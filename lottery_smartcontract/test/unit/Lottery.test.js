@@ -97,5 +97,9 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             const tx = await lottery.performUpkeep("0x")
             expect(tx).to.exist
          })
+
+         it("reverts if checkup is false", async () => {
+            await expect(lottery.performUpkeep("0x")).to.be.revertedWithCustomError(lottery, "Lottery__UpkeepNotNeeded")
+         })
       })
    })
