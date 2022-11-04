@@ -128,13 +128,31 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
             const startingIndex = 2
             for (let i = startingIndex; i < startingIndex + additonalEntrances; i++) {
                lottery = lotteryContract.connect(accounts[i])
+               await lottery.enterLottery({ value: lotteryEntranceFee })
             }
             const startingTime = await lottery.getLastTimestamp()
 
             await new Promise(async (resolve, reject) => {
                lottery.once("WinnerPicked", async () => {
                   console.log("WinnerPicked event fired!")
-                  console.log(startingTime, startingBalance)
+                  try {
+                     console.log(accounts[0].address)
+                     console.log(accounts[1].address)
+                     console.log(accounts[2].address)
+                     console.log(accounts[3].address)
+                     console.log(accounts[4].address)
+                     const recentWinner = await lottery.getRecentWinner()
+                     const raffleState = await lottery.getLotteryState()
+                     const winnerBalance = await accounts[2].getBalance()
+                     console.log("--------------------------------------------------")
+                     console.log(recentWinner)
+                     console.log(raffleState)
+                     console.log((await accounts[1].getBalance()).toString())
+                     console.log(winnerBalance.toString())
+                     resolve()
+                  } catch (e) {
+                     reject(e)
+                  }
                })
 
                const tx = await lottery.performUpkeep("0x")
