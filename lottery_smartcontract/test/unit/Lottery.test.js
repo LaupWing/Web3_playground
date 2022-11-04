@@ -52,4 +52,12 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
 
          })
       })
+      describe("checkUpkeep", function () {
+         it("returns false people haven't sent any ETH", async () => {
+            await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+            await network.provider.request({ method: "evm_mine", params: [] })
+            const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
+            expect(upkeepNeeded).to.equal(false)
+         })
+      })
    })
