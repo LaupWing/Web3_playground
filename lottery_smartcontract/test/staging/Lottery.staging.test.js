@@ -33,7 +33,8 @@ developmentChains.includes(network.name)
                      await expect(lottery.getPlayer(0)).to.be.reverted
                      expect(recentWinner.toString()).equal(accounts[0].address)
                      expect(lotteryState, 0)
-                     expect(winnerEndingBalance.toString()).equal(winnerStartingBalance.add(lotteryEntranceFee).toString())
+                     expect(winnerEndingBalance.toString())
+                        .equal(winnerStartingBalance.add(lotteryEntranceFee).toString())
                      expect(endingTimestamp).greaterThan(startingTimestamp)
                      resolve()
                   } catch (e) {
