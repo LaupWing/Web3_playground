@@ -55,3 +55,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 }
 
 module.exports.tags = ["all", "lottery"]
+
+// 0xF1b5E87bA83637C1Da1f2BF93e0Aa7A778501e3E
