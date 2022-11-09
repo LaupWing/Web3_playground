@@ -16,5 +16,6 @@ contract RandomNumber {
    }
 
    mapping(uint256 => RequestStatus) public s_requests;
-   
+   VRFCoordinatorV2Interface COORDINATOR;
+
 }
