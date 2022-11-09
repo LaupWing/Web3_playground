@@ -18,4 +18,10 @@ contract RandomNumber {
    mapping(uint256 => RequestStatus) public s_requests;
    VRFCoordinatorV2Interface COORDINATOR;
 
+   int64 s_subscriptionId;
+
+   uint256[] public requestIds;
+   uint256 public lastRequestId;
+
+   bytes32 gasLane = 0x0;
 }
