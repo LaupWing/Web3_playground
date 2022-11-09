@@ -44,6 +44,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
          callbackGasLimit,
          numWords
       );
+      // s_requests[requestId] = Re
    }
 
    function fulfillRandomWords(uint _requestId, uint256[] memory _randomWords) internal override{
