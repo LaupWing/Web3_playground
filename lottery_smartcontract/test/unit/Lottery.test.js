@@ -1,4 +1,4 @@
-const { expect, assert } = require("chai");
+const { expect } = require("chai");
 const { network, ethers, deployments } = require("hardhat");
 const { developmentChains, networkConfig } = require("../../helper-hardhat-config");
 
