@@ -28,12 +28,12 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    uint16 requestConfirmations = 3;
    uint32 numWords = 1;
 
-   constructor(uint64 subscription_id)
+   constructor(int64 subscription_id)
       VRFConsumerBaseV2(0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D)
       ConfirmedOwner(msg.sender)
-
    {
-
+      COORDINATOR = VRFCoordinatorV2Interface(0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D);
+      s_subscriptionId = subscription_id;
    }
 
    function fulfillRandomWords(uint _requestId, uint256[] memory _randomWords) internal override{
