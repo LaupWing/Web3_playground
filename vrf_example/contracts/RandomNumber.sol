@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
-contract RandomNumber {
+contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    event RequestEvent(uint256 requestId, uint32 numWords);
    event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
@@ -23,5 +23,20 @@ contract RandomNumber {
    uint256[] public requestIds;
    uint256 public lastRequestId;
 
-   bytes32 gasLane = 0x0;
+   bytes32 gasLane = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15;
+   uint32 callbackGasLimit = 100000;
+   uint16 requestConfirmations = 3;
+   uint32 numWords = 1;
+
+   constructor(uint64 subscription_id)
+      VRFConsumerBaseV2(0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D)
+      ConfirmedOwner(msg.sender)
+
+   {
+
+   }
+
+   function fulfillRandomWords(uint _requestId, uint256[] memory _randomWords) internal override{
+      
+   }
 }
