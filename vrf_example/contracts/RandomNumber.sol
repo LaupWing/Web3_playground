@@ -9,5 +9,12 @@ contract RandomNumber {
    event RequestEvent(uint256 requestId, uint32 numWords);
    event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
+   struct RequestStatus{
+      bool fulfilled;
+      bool exists;
+      uint256[] randomWords;
+   }
+
+   mapping(uint256 => RequestStatus) public s_requests;
    
 }
