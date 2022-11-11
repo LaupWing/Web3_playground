@@ -56,7 +56,10 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    }
 
    function fulfillRandomWords(uint _requestId, uint256[] memory _randomWords) internal override{
-      
+      require(s_requests[_requestId].exists, "request not found");
+      s_requests[_requestId].fulfilled = true;
+      s_requests[_requestId].randomWords = _randomWords;
+      emit RequestFulfilled(_requestId, _randomWords);
    }
 
    function getRequestStatus(uint256 _requestId) 
