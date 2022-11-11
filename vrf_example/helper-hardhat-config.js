@@ -1,6 +1,13 @@
 
 const networkConfig = {
-
+   default: {
+      name: "hardhat"
+   },
+   31337: {
+      name: "localhost",
+      subscriptionId: "",
+      gasLane: ""
+   }
 }
 
 const DEVELOPMENT_CHAINS = ["hardhat", "localhost"]
