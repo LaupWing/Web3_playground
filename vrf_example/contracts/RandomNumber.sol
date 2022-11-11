@@ -6,7 +6,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
-   event RequestEvent(uint256 requestId, uint32 numWords);
+   event RequestSent(uint256 requestId, uint32 numWords);
    event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
    struct RequestStatus{
@@ -44,7 +44,15 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
          callbackGasLimit,
          numWords
       );
-      // s_requests[requestId] = Re
+      s_requests[requestId] = RequestStatus({
+         randomWords: new uint256[](0),
+         exists: true,
+         fulfilled: false
+      });
+      requestIds.push(requestId);
+      lastRequestId = requestId;
+      emit RequestSent(requestId, numWords);
+      return requestId;
    }
 
    function fulfillRandomWords(uint _requestId, uint256[] memory _randomWords) internal override{
