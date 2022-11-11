@@ -15,6 +15,11 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       uint256[] randomWords;
    }
 
+   modifier requestMustExist(uint _requestId){
+      require(s_requests[_requestId].exists, "Request not found");
+      _;
+   }
+
    mapping(uint256 => RequestStatus) public s_requests;
    VRFCoordinatorV2Interface COORDINATOR;
 
