@@ -25,7 +25,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
    const waitBlockConfirmations = 1
    log("----------------------------------------------------------------")
    const args = [
-
+      subscriptionId.toString(),
+      vrfCoordinatorV2Address,
+      networkConfig[chainId]["gasLane"],
    ]
+   console.log(args)
+   const randomNumber = await deploy("RandomNumber", {
+      from: deployer,
+      args,
+      log: true,
+      waitConfirmations: waitBlockConfirmations
+   })
+
+   console.log(randomNumber.address)
 
 }
