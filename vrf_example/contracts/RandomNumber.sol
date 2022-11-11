@@ -29,7 +29,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    uint256 public lastRequestId;
 
    bytes32 private immutable i_gasLane;
-   uint32 private constant callbackGasLimit = 100000;
+   uint32 private constant CALLBACK_GASLIMIT = 100000;
    uint16 private constant REQUEST_CONFIRMATIONS = 3;
    uint32 public s_numWords;
 
@@ -57,7 +57,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
          i_gasLane,
          s_subscriptionId,
          REQUEST_CONFIRMATIONS,
-         callbackGasLimit,
+         CALLBACK_GASLIMIT,
          s_numWords
       );
       s_requests[requestId] = RequestStatus({
