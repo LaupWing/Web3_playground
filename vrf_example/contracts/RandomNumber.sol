@@ -12,7 +12,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    struct RequestStatus{
       bool fulfilled;
       bool exists;
-      uint256[] randomWords;
+      uint256 randomNumber;
    }
 
    modifier requestMustExist(uint _requestId){
@@ -31,6 +31,8 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    bytes32 private immutable i_gasLane;
    uint32 private constant CALLBACK_GASLIMIT = 100000;
    uint16 private constant REQUEST_CONFIRMATIONS = 3;
+   uint16 private constant MAXIMUM = 100;
+   uint16 private constant MINIMUM = 1;
    uint32 private constant NUM_WORDS = 1;
 
    constructor(
@@ -59,7 +61,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
          NUM_WORDS
       );
       s_requests[requestId] = RequestStatus({
-         randomWords: new uint256[](0),
+         randomNumber: 0,
          exists: true,
          fulfilled: false
       });
@@ -75,7 +77,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       requestMustExist(_requestId)
    {
       s_requests[_requestId].fulfilled = true;
-      s_requests[_requestId].randomWords = _randomWords;
+      s_requests[_requestId].randomNumber = MAXIMUM%_randomWords[0] + MINIMUM;
       emit RequestFulfilled(_requestId, _randomWords);
    }
 

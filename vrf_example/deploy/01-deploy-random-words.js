@@ -1,6 +1,7 @@
 const { network, ethers } = require("hardhat")
-const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config")
+const { DEVELOPMENT_CHAINS, networkConfig } = require("../helper-hardhat-config")
 
+const FUND_AMOUNT = ethers.utils.parseEther("1")
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
    const { deploy, log } = deployments
@@ -15,6 +16,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
       const transactionReceipt = await transactionResponse.wait()
       subscriptionId = transactionReceipt.events[0].args.subId
-
+      await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
+   } else {
+      vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
+      subscriptionId = networkConfig[chainId]["subscriptionId"]
    }
+
+   const waitBlockConfirmations = 1
+   log("----------------------------------------------------------------")
+   const args = [
+
+   ]
+
 }
