@@ -7,6 +7,11 @@ const networkConfig = {
       name: "localhost",
       subscriptionId: "",
       gasLane: ""
+   },
+   5: {
+      name: "goerli",
+      subscriptionId: "",
+      gasLane: ""
    }
 }
 

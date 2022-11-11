@@ -28,15 +28,16 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    uint256[] public requestIds;
    uint256 public lastRequestId;
 
-   bytes32 gasLane = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15;
-   uint32 callbackGasLimit = 100000;
+   bytes32 private immutable i_gasLane;
+   uint32 private constant callbackGasLimit = 100000;
    uint16 private constant REQUEST_CONFIRMATIONS = 3;
    uint32 public s_numWords;
 
    constructor(
       uint64 subscription_id, 
       uint32 numWords,
-      address _vrfCoordinatorV2Address
+      address _vrfCoordinatorV2Address,
+      bytes32 _gasLane
    )
       VRFConsumerBaseV2(_vrfCoordinatorV2Address)
       ConfirmedOwner(msg.sender)
@@ -44,6 +45,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       COORDINATOR = VRFCoordinatorV2Interface(_vrfCoordinatorV2Address);
       s_subscriptionId = subscription_id;
       s_numWords = numWords;
+      i_gasLane = _gasLane;
    }
 
    function requestRandomNumber() 
@@ -52,7 +54,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       returns (uint256 requestId)
    {
       requestId = COORDINATOR.requestRandomWords(
-         gasLane,
+         i_gasLane,
          s_subscriptionId,
          REQUEST_CONFIRMATIONS,
          callbackGasLimit,
