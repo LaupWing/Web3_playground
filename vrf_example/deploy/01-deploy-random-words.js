@@ -37,6 +37,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       waitConfirmations: waitBlockConfirmations
    })
 
-   console.log(randomNumber.address)
-
+   log("Enter lottery command:")
+   const networkName = network.name == "hardhat" ? "localhost" : network.name
+   log(`npx hardhat run scripts/getRandom.js --network ${networkName}`)
+   log("----------------------------------------------------------------")
 }
