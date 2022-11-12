@@ -33,7 +33,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    bytes32 private immutable i_gasLane;
    uint32 private constant CALLBACK_GASLIMIT = 100000;
    uint16 private constant REQUEST_CONFIRMATIONS = 3;
-   uint16 private constant MAXIMUM = 100;
+   uint16 private constant MAXIMUM = 99;
    uint16 private constant MINIMUM = 1;
    uint32 private constant NUM_WORDS = 1;
 
@@ -94,7 +94,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    }
 
    function getMaximum() public pure returns(uint256){
-      return MAXIMUM;
+      return MAXIMUM + MINIMUM;
    }
    function getMinimum() public pure returns(uint256){
       return MINIMUM;
