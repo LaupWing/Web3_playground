@@ -20,7 +20,7 @@ const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config")
 
       })
       it("get a minimum and maximum", async () => {
-         console.log((await randomNumberContract.getMaximum()).toString())
-         console.log((await randomNumberContract.getMinimum()).toString())
+         expect((await randomNumberContract.getMaximum()).toString()).to.equal("100")
+         expect((await randomNumberContract.getMinimum()).toString()).to.equal("1")
       })
    })
