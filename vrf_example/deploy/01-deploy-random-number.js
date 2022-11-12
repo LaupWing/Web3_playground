@@ -16,7 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
       const transactionReceipt = await transactionResponse.wait()
       subscriptionId = transactionReceipt.events[0].args.subId
-      await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
+      await vrfCoordinatorV2Mock.fundSubscription(subscriptionId.toString(), FUND_AMOUNT)
    } else {
       vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
       subscriptionId = networkConfig[chainId]["subscriptionId"]
@@ -29,12 +29,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       vrfCoordinatorV2Address,
       networkConfig[chainId]["gasLane"],
    ]
+   console.log(args)
    const randomNumber = await deploy("RandomNumber", {
       from: deployer,
       args,
       log: true,
       waitConfirmations: waitBlockConfirmations
    })
+
+   if (DEVELOPMENT_CHAINS.includes(network.name)) {
+      await vrfCoordinatorV2Mock.addConsumer(subscriptionId.toString(), randomNumber.address)
+   }
 
    log("Enter lottery command:")
    const networkName = network.name == "hardhat" ? "localhost" : network.name
