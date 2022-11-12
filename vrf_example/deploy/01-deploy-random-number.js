@@ -37,10 +37,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       waitConfirmations: waitBlockConfirmations
    })
 
-   // log("Enter lottery command:")
-   // const networkName = network.name == "hardhat" ? "localhost" : network.name
-   // log(`npx hardhat run scripts/getRandom.js --network ${networkName}`)
-   // log("----------------------------------------------------------------")
+   log("Enter lottery command:")
+   const networkName = network.name == "hardhat" ? "localhost" : network.name
+   log(`npx hardhat run scripts/getRandom.js --network ${networkName}`)
+   log("----------------------------------------------------------------")
 }
 
-module.exports = ["all", "randomNumber"]
+module.exports.tags = ["all", "randomNumber"]
