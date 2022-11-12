@@ -16,8 +16,9 @@ const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config")
          randomNumberContract = await ethers.getContract("RandomNumber")
       })
 
-      it("generates a random number between 1 and 100", () => {
-
+      it("generates a random number between 1 and 100", async () => {
+         const requestId = await randomNumberContract.requestRandomNumber()
+         console.log(requestId)
       })
       it("get a minimum and maximum", async () => {
          expect((await randomNumberContract.getMaximum()).toString()).to.equal("100")
