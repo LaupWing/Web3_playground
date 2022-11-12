@@ -29,6 +29,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       vrfCoordinatorV2Address,
       networkConfig[chainId]["gasLane"],
    ]
+
    const randomNumber = await deploy("RandomNumber", {
       from: deployer,
       args,

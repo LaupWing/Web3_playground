@@ -24,7 +24,8 @@ module.exports = {
       },
       goerli: {
          url: GOERLI_RPC_URL,
-         accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : []
+         accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+         chainId: 5
       }
    },
    etherscan: {
