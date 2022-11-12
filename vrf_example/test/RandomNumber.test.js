@@ -6,16 +6,20 @@ const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config")
    ? describe.skip
    : describe("RandomNumber", function () {
 
+      let vrfCoordinatorV2Mock, randomNumberContract
+
       beforeEach(async () => {
          accounts = await ethers.getSigners()
          const { deployer } = await getNamedAccounts()
          await deployments.fixture(["mocks", "randomNumber"])
-         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
-         console.log(deployer)
-         console.log(vrfCoordinatorV2Mock)
+         vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
+         randomNumberContract = await ethers.getContract("RandomNumber")
       })
 
       it("generates a random number between 1 and 100", () => {
 
+      })
+      it("get a minimum and maximum", async () => {
+         console.log((await randomNumberContract.getMaximum()))
       })
    })

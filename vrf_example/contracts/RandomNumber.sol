@@ -90,4 +90,11 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       request = s_requests[_requestId];
       return request;
    }
+
+   function getMaximum() public pure returns(uint256){
+      return MAXIMUM;
+   }
+   function getMinimum() public pure returns(uint256){
+      return MINIMUM;
+   }
 }
