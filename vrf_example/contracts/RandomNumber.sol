@@ -22,7 +22,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       _;
    }
 
-   mapping(uint256 => RequestStatus) public s_requests;
+   mapping(uint256 => RequestStatus) private s_requests;
    VRFCoordinatorV2Interface COORDINATOR;
 
    uint64 s_subscriptionId;
@@ -98,5 +98,9 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
    }
    function getMinimum() public pure returns(uint256){
       return MINIMUM;
+   }
+
+   function getRequest(uint256 _requestId) public view returns(RequestStatus memory){
+      return s_requests[_requestId];
    }
 }

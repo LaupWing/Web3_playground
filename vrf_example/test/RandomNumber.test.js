@@ -17,8 +17,10 @@ const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config")
       })
 
       it("generates a random number between 1 and 100", async () => {
-         const requestId = await randomNumberContract.requestRandomNumber()
-         console.log(requestId)
+         const transaction = await randomNumberContract.requestRandomNumber()
+         const transactionReceipt = await transaction.wait(1)
+         const request = await randomNumberContract.
+            console.log(transactionReceipt.events[1].args.requestId.toString())
       })
       it("get a minimum and maximum", async () => {
          expect((await randomNumberContract.getMaximum()).toString()).to.equal("100")
