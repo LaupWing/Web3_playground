@@ -42,3 +42,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
    log(`npx hardhat run scripts/getRandom.js --network ${networkName}`)
    log("----------------------------------------------------------------")
 }
+
