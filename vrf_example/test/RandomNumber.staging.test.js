@@ -18,10 +18,14 @@ DEVELOPMENT_CHAINS.includes(network.name)
       })
       it("test", async () => {
          await new Promise(async (resolve, reject) => {
-            randomNumberContract.once("")
+            randomNumberContract.once("RequestFulfilled", (e) => {
+               console.log(e)
+            })
 
+            console.log("Requesting a new random number")
             const transaction = await randomNumberContract.requestRandomNumber()
             transaction.wait(1)
+            console.log("Okay time to wait")
          })
       })
    })
