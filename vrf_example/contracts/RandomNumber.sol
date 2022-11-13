@@ -79,7 +79,7 @@ contract RandomNumber is VRFConsumerBaseV2, ConfirmedOwner {
       requestMustExist(_requestId)
    {
       s_requests[_requestId].fulfilled = true;
-      s_requests[_requestId].randomNumber = MAXIMUM%_randomWords[0] + MINIMUM;
+      s_requests[_requestId].randomNumber = _randomWords[0] % MAXIMUM + MINIMUM;
       emit RequestFulfilled(_requestId, _randomWords);
    }
 
