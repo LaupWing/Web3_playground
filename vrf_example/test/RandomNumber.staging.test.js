@@ -27,7 +27,6 @@ DEVELOPMENT_CHAINS.includes(network.name)
                   console.log(err)
                   reject(err)
                }
-
             })
 
             console.log("Requesting a new random number")
