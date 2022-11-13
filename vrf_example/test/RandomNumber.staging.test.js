@@ -18,10 +18,11 @@ DEVELOPMENT_CHAINS.includes(network.name)
       })
       it("test", async () => {
          await new Promise(async (resolve, reject) => {
-            randomNumberContract.once("RequestFulfilled", (e) => {
+            randomNumberContract.once("RequestFulfilled", (request_id, randomNumber) => {
                try {
                   console.log("Request is fulfilled!")
-                  console.log(e)
+                  console.log(request_id.toString())
+                  console.log(randomNumber[0].toString())
                   resolve()
                } catch (err) {
                   console.log(err)
