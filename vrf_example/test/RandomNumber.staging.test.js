@@ -1,6 +1,6 @@
 const { network, ethers, getNamedAccounts } = require("hardhat");
 const { DEVELOPMENT_CHAINS } = require("../helper-hardhat-config");
-
+const { expect } = require("chai")
 
 DEVELOPMENT_CHAINS.includes(network.name)
    ? describe.skip
@@ -18,11 +18,15 @@ DEVELOPMENT_CHAINS.includes(network.name)
       })
       it("test", async () => {
          await new Promise(async (resolve, reject) => {
-            randomNumberContract.once("RequestFulfilled", (request_id, randomNumber) => {
+            randomNumberContract.once("RequestFulfilled", async (request_id, randomNumber) => {
+               console.log("Request is fulfilled!")
                try {
-                  console.log("Request is fulfilled!")
-                  console.log(request_id.toString())
-                  console.log(randomNumber[0].toString())
+                  const last_request_id = await randomNumberContract.lastRequestId()
+                  const requestStatus = await randomNumberContract.getRequestStatus(request_id)
+                  console.log(requestStatus)
+                  console.log(last_request_id)
+                  console.log(request_id)
+                  expect(last_request_id).equal(request_id)
                   resolve()
                } catch (err) {
                   console.log(err)
@@ -32,7 +36,10 @@ DEVELOPMENT_CHAINS.includes(network.name)
 
             console.log("Requesting a new random number")
             const transaction = await randomNumberContract.requestRandomNumber()
+            const last_request_id = await randomNumberContract.lastRequestId()
             transaction.wait(1)
+            console.log(transaction)
+            console.log(last_request_id.toString())
             console.log("Okay time to wait")
          })
       })
