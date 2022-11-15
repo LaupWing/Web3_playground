@@ -22,7 +22,7 @@ export default function Home() {
 
                   </div>
                ) : (
-                  <div></div>
+                  <div>{`Please switch to a supported chain. The supported chain ids are ${supportedChains}`}</div>
                )}
             </div>
          ) : (
