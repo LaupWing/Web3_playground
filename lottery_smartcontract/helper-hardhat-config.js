@@ -30,10 +30,13 @@ const networkConfig = {
 
 const developmentChains = ["hardhat", "localhost"]
 const VERIFICATION_BLOCK_CONFIRMATIONS = 6
-const frontEndContractsFile = "../lottery_frontend/constants"
+const frontendContractsFile = "../lottery_frontend/constants/contractAddresses.json"
+const frontendAbiFile = "../lottery_frontend/constants/abi.json"
 
 module.exports = {
    networkConfig,
    developmentChains,
-   VERIFICATION_BLOCK_CONFIRMATIONS
+   VERIFICATION_BLOCK_CONFIRMATIONS,
+   frontendAbiFile,
+   frontendContractsFile
 }
