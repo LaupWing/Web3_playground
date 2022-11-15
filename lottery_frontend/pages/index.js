@@ -15,6 +15,19 @@ export default function Home() {
             <link rel="icon" href="/favicon.ico" />
          </Head>
          <Header />
+         {isWeb3Enabled ? (
+            <div>
+               {supportedChains.includes(parseInt(chainId).toString()) ? (
+                  <div className="flex flex-row">
+
+                  </div>
+               ) : (
+                  <div></div>
+               )}
+            </div>
+         ) : (
+            <div></div>
+         )}
       </div>
    )
 }
