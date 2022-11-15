@@ -23,10 +23,11 @@ DEVELOPMENT_CHAINS.includes(network.name)
                try {
                   const last_request_id = await randomNumberContract.lastRequestId()
                   const requestStatus = await randomNumberContract.getRequestStatus(request_id)
-                  console.log(requestStatus)
                   console.log(last_request_id)
                   console.log(request_id)
+                  console.log(requestStatus.randomNumber.toString())
                   expect(last_request_id).equal(request_id)
+                  expect(requestStatus.exists).equal(true)
                   resolve()
                } catch (err) {
                   console.log(err)
