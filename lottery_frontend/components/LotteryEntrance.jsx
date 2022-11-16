@@ -52,8 +52,9 @@ const LotteryEntrance = () => {
 
 
    const updateUI = async () => {
-      const test = await getEntranceFee()
-      console.log(test.toString())
+      setEntranceFee((await getEntranceFee()).toString())
+      setNumberOfPlayers((await getNumberOfPlayers()).toString())
+      getRecentWinner(await getRecentWinner())
    }
 
    useEffect(() => {
