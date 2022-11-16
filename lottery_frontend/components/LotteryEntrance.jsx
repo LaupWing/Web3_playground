@@ -73,6 +73,15 @@ const LotteryEntrance = () => {
       })
    }
 
+   const handleSuccess = async (tx) => {
+      try {
+         await tx.wait(1)
+         updateUI()
+         handleNewNotification(tx)
+      } catch (err) {
+         console.error(err)
+      }
+   }
 
    return (
       <div>LotteryEntrance</div>
