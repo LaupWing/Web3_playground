@@ -36,6 +36,15 @@ const LotteryEntrance = () => {
       params: {}
    })
 
+   const { runContractFunction: getNumberOfPlayers } = useWeb3Contract({
+      abi,
+      contractAddress: lotteryAddress,
+      functionName: "getNumberOfPlayers",
+      params: {}
+   })
+
+
+
    const updateUI = async () => {
       const test = await getEntranceFee()
       console.log(test.toString())
