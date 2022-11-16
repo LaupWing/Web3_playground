@@ -16,6 +16,18 @@ const LotteryEntrance = () => {
 
    const dispatch = useNotification()
 
+   const {
+      runContractFunction: enterLottery,
+      data: enterTxResponse,
+      isLoading,
+      isFetching
+   } = useWeb3Contract({
+      abi,
+      contractAddress: lotteryAddress,
+      functionName: "enterLottery",
+      msgValue: entranceFee,
+      params: {}
+   })
 
    const { runContractFunction: getEntranceFee } = useWeb3Contract({
       abi,
