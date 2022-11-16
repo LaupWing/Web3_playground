@@ -43,6 +43,12 @@ const LotteryEntrance = () => {
       params: {}
    })
 
+   const { runContractFunction: getRecentWinner } = useWeb3Contract({
+      abi,
+      contractAddress: lotteryAddress,
+      functionName: "getRecentWinner",
+      params: {}
+   })
 
 
    const updateUI = async () => {
