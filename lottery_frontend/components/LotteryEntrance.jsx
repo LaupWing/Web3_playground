@@ -58,8 +58,21 @@ const LotteryEntrance = () => {
    }
 
    useEffect(() => {
-      updateUI()
-   }, [])
+      if (isWeb3Enabled) {
+         updateUI()
+      }
+   }, [isWeb3Enabled])
+
+   const handleNewNotification = () => {
+      dispatch({
+         type: "info",
+         message: "Transaction Completed!",
+         title: "Transaction Notification",
+         position: "topR",
+         icon: "bell"
+      })
+   }
+
 
    return (
       <div>LotteryEntrance</div>
