@@ -1,6 +1,7 @@
+const { getWeth } = require("./getWeth")
 
 async function main() {
-
+   await getWeth()
 }
 
 
