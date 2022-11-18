@@ -2,7 +2,6 @@ const { getNamedAccounts, ethers } = require("hardhat")
 const AMOUNT = ethers.utils.parseEther("0.02")
 
 async function getWeth() {
-   console.log(getNamedAccounts)
    const { deployer } = await getNamedAccounts()
 
    const iWeth = await ethers.getContractAt(
@@ -17,5 +16,5 @@ async function getWeth() {
 }
 
 module.exports = {
-   getWeth
+   getWeth,
 }
