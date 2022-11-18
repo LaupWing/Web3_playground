@@ -1,10 +1,12 @@
 const { ethers, getNamedAccounts } = require("hardhat")
-const { getWeth } = require("./getWeth")
+const { getWeth, AMOUNT } = require("./getWeth")
 
 async function main() {
    await getWeth()
    const { deployer } = await getNamedAccounts()
    const lendingPool = await getLendingPool(deployer)
+   await approveErc20(lendingPool.address, AMOUNT, deployer)
+   console.log("Depositing")
 }
 
 async function getLendingPool(account) {
