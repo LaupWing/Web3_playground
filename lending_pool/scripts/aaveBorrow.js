@@ -51,19 +51,51 @@ async function getBorrowUserData(lendingPool, account) {
    }
 }
 
+async function borrowDai(lendingPool, amountDaiToBorrow, account) {
+   const borrow_transaction = await lendingPool.borrow(
+      "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      amountDaiToBorrow,
+      1,
+      0,
+      account
+   )
+   await borrow_transaction.wait(1)
+   console.log("You've borrowed!")
+}
+
+async function repay(amount, account) {
+   await approveErc20("0x6B175474E89094C44Da98b954EedeAC495271d0F", amount)
+}
+
 async function main() {
    await getWeth()
    const { deployer } = await getNamedAccounts()
    const lendingPool = await getLendingPool(deployer)
 
    await approveErc20(lendingPool.address, AMOUNT, deployer)
-   console.log("Depositing")
+   console.log("Depositing WETH...")
+   await lendingPool.deposit(
+      "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      AMOUNT,
+      deployer,
+      0
+   )
+   console.log("Deposited!")
 
    let { availableBorrowsETH, totalDebtETH } = await getBorrowUserData(
       lendingPool,
       deployer
    )
    const daiPrice = await getDaiPrice()
+   console.log(availableBorrowsETH.toString() * 0.95)
+   const amountDaiToBorrow =
+      availableBorrowsETH.toString() * 0.95 * (1 / daiPrice.toNumber())
+   const amountDaiToBorrowWei = ethers.utils.parseEther(
+      amountDaiToBorrow.toString()
+   )
+   console.log(`You can borrow ${amountDaiToBorrow.toString()} DAI`)
+   await borrowDai(lendingPool, amountDaiToBorrowWei, deployer)
+   await getBorrowUserData(lendingPool, deployer)
 }
 
 main()
