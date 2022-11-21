@@ -1,6 +1,8 @@
 const { ethers, getNamedAccounts } = require("hardhat")
 const { getWeth, AMOUNT } = require("./getWeth")
 
+const WETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+
 async function getLendingPool(account) {
    const lendingPoolAddressesProvider = await ethers.getContractAt(
       "ILendingPoolAddressesProvider",
@@ -27,12 +29,8 @@ async function getDaiPrice() {
    return price
 }
 
-async function approveErc20(spenderAddress, amount, signer) {
-   const erc20Token = await ethers.getContractAt(
-      "IERC20",
-      "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-      signer
-   )
+async function approveErc20(erc20Address, spenderAddress, amount, signer) {
+   const erc20Token = await ethers.getContractAt("IERC20", erc20Address, signer)
    transaction_response = await erc20Token.approve(spenderAddress, amount)
    await transaction_response.wait(1)
    console.log("Approved")
@@ -72,7 +70,7 @@ async function main() {
    const { deployer } = await getNamedAccounts()
    const lendingPool = await getLendingPool(deployer)
 
-   await approveErc20(lendingPool.address, AMOUNT, deployer)
+   await approveErc20(WETH_ADDRESS, lendingPool.address, AMOUNT, deployer)
    console.log("Depositing WETH...")
    await lendingPool.deposit(
       "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
