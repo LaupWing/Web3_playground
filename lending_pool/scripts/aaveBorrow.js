@@ -17,6 +17,16 @@ async function getLendingPool(account) {
    return lendingPool
 }
 
+async function getDaiPrice() {
+   const daiEthPriceFeed = await ethers.getContractAt(
+      "AggregatorV3Interface",
+      "0x773616e4d11a78f511299002da57a0a94577f1f4"
+   )
+   const price = (await daiEthPriceFeed.latestRoundData())[1]
+   console.log(`The DAI/ETH price is ${price.toString()}`)
+   return price
+}
+
 async function approveErc20(spenderAddress, amount, signer) {
    const erc20Token = await ethers.getContractAt(
       "IERC20",
@@ -53,6 +63,7 @@ async function main() {
       lendingPool,
       deployer
    )
+   const daiPrice = await getDaiPrice()
 }
 
 main()
