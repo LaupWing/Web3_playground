@@ -19,7 +19,7 @@ contract BasicNft is ERC721 {
       _safeMint(msg.sender, s_tokenCounter);
    }
 
-   function tokenURI() public pure override returns (string memory){
+   function tokenURI(uint256 tokenId) public pure override returns (string memory){
       return TOKEN_URI;
    }
 
