@@ -14,7 +14,7 @@ error RandomIpfsNft__NeedMoreETHSent();
 error RandomIpfsNft__RangeOutOfBounds();
 error RandomIpfsNft__TranferFailed();
 
-contract RandomIpfsNft  {
+contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable  {
    enum Breed {
       PUG,
       SHIBA_INU,
@@ -81,5 +81,30 @@ contract RandomIpfsNft  {
 
       s_requestIdToSender[requestId] = msg.sender;
       emit NftRequested(requestId, msg.sender);
+   }
+
+   function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override{
+      address dogOwner = s_requestIdToSender[requestId];
+      uint256 newItemId = s_tokenCounter;
+      s_tokenCounter = s_tokenCounter + 1;
+      uint256 moddedRng = randomWords[0]% MAX_CHANCE_VALUE;
+      Breed dogBreed = getBreedFromModdedRng(moddedRng);
+      _safeMint(dogOwner, s_dogTokenUris[uint256(dogBreed)]);
+   }
+
+   function getChanceArray() public pure returns (uint256[3] memory){
+      return [10, 40, MAX_CHANCE_VALUE];
+   }
+
+   function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed){
+      uint256 cumulativeSum = 0;
+      uint256[3] memory chanceArray = getChanceArray();
+      for(uint256 i = 0; i < chanceArray.length; i++){
+         if(moddedRng >= cumulativeSum && moddedRng < chanceArray[i]){
+            return Breed(i);
+         }
+         cumulativeSum = chanceArray[i];
+      }
+      revert RandomIpfsNft__RangeOutOfBounds();
    }
 }
