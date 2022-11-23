@@ -29,4 +29,32 @@ contract RandomIpfsNft  {
    uint16 private constant REQUEST_CONFIRMATIONS = 100;
    uint32 private constant NUM_WORDS = 1;
 
+   // NFT variables
+   uint256 private immutable i_mintFee;
+   uint256 private s_tokenCounter;
+   uint256 internal constant MAX_CHANCE_VALUE = 100;
+   string[] internal s_dogTokenUris;
+   bool private s_initialized;
+
+   // VRF Helpers
+   mapping(uint256 => address) public s_requestIdToSender;
+
+   event NftRequested(uint256 indexed requestId, address requester);
+   event NftMinted(Breed breed, address minter);
+
+   constructor(
+      address vrfCoordinatorV2,
+      uint64 subscriptionId,
+      bytes32 gasLane,
+      uint256 mintFee,
+      uint32 callbackGasLimit,
+      string[3] memory dogTokenUris
+   ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random IPFS NFT", "RIN"){
+      i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
+      i_gasLane = gasLane;
+      i_subscriptionId = subscriptionId;
+      i_mintFee = mintFee;
+      i_callbackGasLimit = callbackGasLimit;
+      s_tokenCounter = 0;
+   }
 }
