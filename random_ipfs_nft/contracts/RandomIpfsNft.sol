@@ -56,5 +56,30 @@ contract RandomIpfsNft  {
       i_mintFee = mintFee;
       i_callbackGasLimit = callbackGasLimit;
       s_tokenCounter = 0;
+      _initializeContract(dogTokenUris);
+   }
+
+   function _initializeContract(string[3] memory dogTokenUris) private {
+      if(s_initialized){
+         revert RandomIpfsNft__AlreadyInitialized();
+      }
+      s_dogTokenUris = dogTokenUris;
+      s_initialized = true;
+   }
+
+   function requestNft() public payable returns (uint256 requestId){
+      if(msg.value < i_mintFee){
+         revert RandomIpfsNft__NeedMoreETHSent();
+      }
+      requestId = i_vrfCoordinator.requestRandomWords(
+         i_gasLane, 
+         i_subscriptionId, 
+         REQUEST_CONFIRMATIONS, 
+         i_callbackGasLimit, 
+         NUM_WORDS
+      );
+
+      s_requestIdToSender[requestId] = msg.sender;
+      emit NftRequested(requestId, msg.sender);
    }
 }
