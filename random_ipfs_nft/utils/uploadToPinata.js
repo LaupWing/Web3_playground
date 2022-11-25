@@ -8,7 +8,8 @@ const pinata = new pinata_sdk(pinata_api_key, pinata_api_secret)
 
 async function storeImages(images_file_path){
    const full_images_path = path.resolve(images_file_path)
-   console.log(full_images_path)
+   
+   const files = fs.readdirSync
 }
 
 module.exports = {
