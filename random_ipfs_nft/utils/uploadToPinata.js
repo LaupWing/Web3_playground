@@ -42,8 +42,16 @@ async function storeTokenUriMetadata(metadata){
          name: metadata.name
       }
    }
+   try{
+      const response = await pinata.pinJSONToIPFS(metadata, options)
+      return response
+   }catch(e){
+      console.log(e)
+   }
+   return null
 }
 
 module.exports = {
-   storeImages
+   storeImages,
+   storeTokenUriMetadata
 }
