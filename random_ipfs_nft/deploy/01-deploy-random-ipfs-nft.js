@@ -4,6 +4,18 @@ const { storeImages } = require("../utils/uploadToPinata")
 const images_location = "./images/"
 const FUND_AMOUNT = ethers.utils.parseEther("1").toString()
 
+const metadataTemplate = {
+   name: "",
+   description: "",
+   image: "",
+   attributes:[
+      {
+         trait_type: "Power",
+         value: 100
+      }
+   ]
+}
+
 module.exports = async ({getNamedAccounts, deployments})=>{
    const { deploy, log } = deployments
    const { deployer } = await getNamedAccounts()
