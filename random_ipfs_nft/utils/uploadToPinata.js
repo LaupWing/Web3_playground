@@ -16,13 +16,13 @@ async function storeImages(images_file_path){
    
    const proxy = files
       .map(async file =>{
-         try{
-            const readableStream = fs.createReadStream(`${full_images_path}/${file}`)
-            const options = {
-               pinataMetadata:{
-                  name: file
-               }
+         const options = {
+            pinataMetadata:{
+               name: file
             }
+         }
+         const readableStream = fs.createReadStream(`${full_images_path}/${file}`)
+         try{
             const res = await pinata.pinFileToIPFS(readableStream, options)
             return res
          }catch(e){
@@ -33,6 +33,14 @@ async function storeImages(images_file_path){
    return {
       responses, 
       files
+   }
+}
+
+async function storeTokenUriMetadata(metadata){
+   const options = {
+      pinataMetadata:{
+         name: metadata.name
+      }
    }
 }
 
