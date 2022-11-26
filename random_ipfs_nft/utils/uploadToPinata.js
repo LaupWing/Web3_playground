@@ -13,7 +13,27 @@ async function storeImages(images_file_path){
    const files = fs
       .readdirSync(full_images_path)
       .filter(file=> isImage(file))
-   console.log(files)
+   
+   const proxy = files
+      .map(async file =>{
+         try{
+            const readableStream = fs.createReadStream(`${full_images_path}/${file}`)
+            const options = {
+               pinataMetadata:{
+                  name: file
+               }
+            }
+            const res = await pinata.pinFileToIPFS(readableStream, options)
+            return res
+         }catch(e){
+            console.log(e.message)
+         }
+      })
+   const responses = await Promise.all(proxy) 
+   return {
+      responses, 
+      files
+   }
 }
 
 module.exports = {
