@@ -6,7 +6,9 @@ module.exports = async ({getNamedAccounts, deployments})=>{
    const { deploy, log } = deployments
    const { deployer } = await getNamedAccounts()
 
-   storeImages(images_location)
+   const res = await storeImages(images_location)
+   console.log(res)
+
 }
 
 module.exports.tags = ["all", "random"]
