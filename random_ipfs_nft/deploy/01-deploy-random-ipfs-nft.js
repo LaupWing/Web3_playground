@@ -33,7 +33,18 @@ module.exports = async ({getNamedAccounts, deployments})=>{
 }
 
 async function handleTokenUris() {
-   const {responses} = await storeImages(images_location)
+   const { responses, files} = await storeImages(images_location)
+   console.log(files)
+   const proxy = responses.map((res, i) =>{
+      const tokenUriMetadata = {
+         ...metadataTemplate
+      }
+      tokenUriMetadata.name = `Laup ${files[i].replace(".png", "")}`
+      tokenUriMetadata.description =  `${tokenUriMetadata.name} will destroy you`
+      tokenUriMetadata.image = `ipfs://${res.IpfsHash}`
+      return tokenUriMetadata
+   })
+   console.log(proxy)
    
 }
 
