@@ -12,12 +12,11 @@ const { developmentChains } = require("../helper-hardhat-config");
          await deployments.fixture(["mocks", "random"])
          randomIpfsNft = await ethers.getContract("RandomIpfsNft")
          vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
-         
       })
 
       describe("Constructor", ()=>{
          it("sets starting values correctly", async ()=>{
-
+            
          })
       })
 
