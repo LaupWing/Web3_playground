@@ -25,7 +25,15 @@ const { developmentChains } = require("../helper-hardhat-config")
       })
 
       describe("requestNft", ()=>{
-
+         it("reverts when no ETH is send", async ()=>{
+            await expect(randomIpfsNft.requestNft())
+               .to
+               .be
+               .revertedWithCustomError(
+                  randomIpfsNft,
+                  "RandomIpfsNft__NeedMoreETHSent"
+               )
+         })
       })
 
       describe("fulfillRandomWords", ()=>{
