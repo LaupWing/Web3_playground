@@ -49,17 +49,36 @@ const { developmentChains } = require("../helper-hardhat-config")
 
          it("emits nft requested event", async ()=>{
             const mint_fee = (await randomIpfsNft.getMintFee()).toString()
-            
+
             await expect(randomIpfsNft.requestNft({
                value: mint_fee
             }))
                .to.emit(randomIpfsNft, "NftRequested")
                .withArgs(1, deployer)
          })
+
+         it("registers request id to sender", async ()=>{
+            const mint_fee = (await randomIpfsNft.getMintFee()).toString()
+
+            await randomIpfsNft.requestNft({
+               value: mint_fee
+            })
+            const requestSender = await randomIpfsNft.s_requestIdToSender(1)
+            expect(requestSender).to.equal(deployer)
+         })
       })
 
       describe("fulfillRandomWords", ()=>{
-         
+         it("mints NFT after random number has been returned", async ()=>{
+            new Promise((resolve, reject)=>{
+               try{
+
+               }catch(e){
+                  console.log(e)
+                  reject(e)
+               }
+            })
+         })
       })
 
       describe("getBreedFromModdedRng", ()=>{
