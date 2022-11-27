@@ -1,6 +1,6 @@
-const { network, ethers, getNamedAccounts, deployments } = require("hardhat");
-const { developmentChains } = require("../helper-hardhat-config");
-
+const { expect } = require("chai")
+const { network, ethers, getNamedAccounts, deployments } = require("hardhat")
+const { developmentChains } = require("../helper-hardhat-config")
 
 !developmentChains.includes(network.name) 
    ? describe.skip
@@ -17,8 +17,10 @@ const { developmentChains } = require("../helper-hardhat-config");
       describe("Constructor", ()=>{
          it("sets starting values correctly", async ()=>{
             const dogTokenUri = await randomIpfsNft.getDogTokenUri(0)
-            const initialized = await randomIpfsNft.
-            console.log(dogTokenUri)
+            const initialized = await randomIpfsNft.getInitialized()
+
+            expect(dogTokenUri).to.include("ipfs")
+            expect(initialized).to.equal(true)
          })
       })
 
