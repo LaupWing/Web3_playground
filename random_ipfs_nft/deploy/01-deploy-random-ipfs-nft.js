@@ -1,6 +1,7 @@
 const { ethers, network } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
 const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
+const { verify } = require("../utils/verify")
 
 const images_location = "./images/"
 const FUND_AMOUNT = ethers.utils.parseEther("1").toString()
@@ -57,9 +58,10 @@ module.exports = async ({getNamedAccounts, deployments})=>{
    if(developmentChains.includes(network.name)){
       await vrfCoordinatorV2Mock.addConsumer(subscriptionId, randomIpfsNft.address)
    }
-   console.log(randomIpfsNft)
-   // const res = await storeImages(images_location)
-   
+   if(!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY){
+      log("verifying...")
+      await verify(randomIpfsNft.address, args)
+   }
 }
 
 async function handleTokenUris() {
