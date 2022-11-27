@@ -16,7 +16,9 @@ const { developmentChains } = require("../helper-hardhat-config");
 
       describe("Constructor", ()=>{
          it("sets starting values correctly", async ()=>{
-            
+            const dogTokenUri = await randomIpfsNft.getDogTokenUri(0)
+            const initialized = await randomIpfsNft.
+            console.log(dogTokenUri)
          })
       })
 
