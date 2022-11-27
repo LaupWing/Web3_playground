@@ -1,5 +1,5 @@
 const { ethers, network } = require("hardhat")
-const { storeImages } = require("../utils/uploadToPinata")
+const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
 
 const images_location = "./images/"
 const FUND_AMOUNT = ethers.utils.parseEther("1").toString()
@@ -34,17 +34,21 @@ module.exports = async ({getNamedAccounts, deployments})=>{
 
 async function handleTokenUris() {
    const { responses, files} = await storeImages(images_location)
-   console.log(files)
-   const proxy = responses.map((res, i) =>{
+   
+   const proxy = responses.map(async (res, i) =>{
       const tokenUriMetadata = {
          ...metadataTemplate
       }
       tokenUriMetadata.name = `Laup ${files[i].replace(".png", "")}`
       tokenUriMetadata.description =  `${tokenUriMetadata.name} will destroy you`
       tokenUriMetadata.image = `ipfs://${res.IpfsHash}`
-      return tokenUriMetadata
+
+      const metaDataResponse = await storeTokenUriMetadata(tokenUriMetadata)
+      return metaDataResponse
    })
-   console.log(proxy)
+
+   const tokenUris = await Promise.all(proxy)
+   console.log(tokenUris)
    
 }
 
