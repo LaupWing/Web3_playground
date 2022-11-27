@@ -46,6 +46,16 @@ const { developmentChains } = require("../helper-hardhat-config")
                   "RandomIpfsNft__NeedMoreETHSent"
                )
          })
+
+         it("emits nft requested event", async ()=>{
+            const mint_fee = (await randomIpfsNft.getMintFee()).toString()
+            
+
+            await expect(randomIpfsNft.requestNft({
+               value: mint_fee
+            }))
+               .to.emit(randomIpfsNft, "NftRequested")
+         })
       })
 
       describe("fulfillRandomWords", ()=>{
