@@ -34,6 +34,18 @@ const { developmentChains } = require("../helper-hardhat-config")
                   "RandomIpfsNft__NeedMoreETHSent"
                )
          })
+
+         it("reverts when there is less ETH send", async ()=>{
+            await expect(randomIpfsNft.requestNft({
+               value: ethers.utils.parseEther("0.000001")
+            }))
+               .to
+               .be
+               .revertedWithCustomError(
+                  randomIpfsNft,
+                  "RandomIpfsNft__NeedMoreETHSent"
+               )
+         })
       })
 
       describe("fulfillRandomWords", ()=>{
