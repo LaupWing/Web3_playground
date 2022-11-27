@@ -50,11 +50,11 @@ const { developmentChains } = require("../helper-hardhat-config")
          it("emits nft requested event", async ()=>{
             const mint_fee = (await randomIpfsNft.getMintFee()).toString()
             
-
             await expect(randomIpfsNft.requestNft({
                value: mint_fee
             }))
                .to.emit(randomIpfsNft, "NftRequested")
+               .withArgs(1, deployer)
          })
       })
 
