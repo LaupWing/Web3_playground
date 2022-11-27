@@ -20,10 +20,13 @@ module.exports = async ({getNamedAccounts, deployments})=>{
    const { deploy, log } = deployments
    const { deployer } = await getNamedAccounts()
    const chain_id = network.config.chainId
-   let vrfCoordinatorV2Address, subscriptionId, vrfCoordinatorV2Mock
-   console.log(process.env.UPLOAD_TO_PINATA)
+   let vrfCoordinatorV2Address, 
+      subscriptionId, 
+      vrfCoordinatorV2Mock,
+      tokenUris
+   
    if(process.env.UPLOAD_TO_PINATA === "true"){
-      await handleTokenUris()
+      tokenUris = await handleTokenUris()
    }
 
 
@@ -44,12 +47,11 @@ async function handleTokenUris() {
       tokenUriMetadata.image = `ipfs://${res.IpfsHash}`
 
       const metaDataResponse = await storeTokenUriMetadata(tokenUriMetadata)
-      return metaDataResponse
+      return `ipfs://${metaDataResponse.IpfsHash}`
    })
 
    const tokenUris = await Promise.all(proxy)
-   console.log(tokenUris)
-   
+   return tokenUris
 }
 
 module.exports.tags = ["all", "random"]
