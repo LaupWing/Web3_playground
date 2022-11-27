@@ -1,4 +1,4 @@
-const { network, ethers, getNamedAccounts } = require("hardhat");
+const { network, ethers, getNamedAccounts, deployments } = require("hardhat");
 const { developmentChains } = require("../helper-hardhat-config");
 
 
@@ -9,6 +9,9 @@ const { developmentChains } = require("../helper-hardhat-config");
 
       beforeEach(async ()=>{
          deployer = (await getNamedAccounts()).deployer
+         await deployments.fixture(["mocks", "random"])
+         randomIpfsNft = await ethers.getContract("RandomIpfsNft")
+         vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
          
       })
 
