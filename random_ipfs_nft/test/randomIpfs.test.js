@@ -71,6 +71,11 @@ const { developmentChains } = require("../helper-hardhat-config")
       describe("fulfillRandomWords", ()=>{
          it("mints NFT after random number has been returned", async ()=>{
             await new Promise(async (resolve, reject)=>{
+               // randomIpfsNft.once("NftMinted", (e)=>{
+               //    console.log("test")
+               //    console.log(e)
+               // })
+
                try{
                   const mint_fee = (await randomIpfsNft.getMintFee()).toString()
 
