@@ -4,7 +4,6 @@ const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata"
 const { verify } = require("../utils/verify")
 
 const images_location = "./images/"
-const FUND_AMOUNT = ethers.utils.parseEther("1").toString()
 
 const metadataTemplate = {
    name: "",
