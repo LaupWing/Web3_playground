@@ -17,4 +17,16 @@ const { developmentChains } = require("../helper-hardhat-config");
 
          })
       })
+
+      describe("requestNft", ()=>{
+
+      })
+
+      describe("fulfillRandomWords", ()=>{
+         
+      })
+
+      describe("getBreedFromModdedRng", ()=>{
+
+      })
    })
