@@ -73,7 +73,7 @@ const { developmentChains } = require("../helper-hardhat-config")
             await new Promise(async (resolve, reject)=>{
                randomIpfsNft.once("NftMinted", async (e)=>{
                   const tokenCounter = (await randomIpfsNft.getTokenCounter()).toString()
-                  console.log(tokenCounter)
+                  console.log(await randomIpfsNft.balanceOf(deployer))
                   expect(tokenCounter).equal("1")
                   resolve()
                })
