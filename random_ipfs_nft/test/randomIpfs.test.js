@@ -100,6 +100,14 @@ const { developmentChains } = require("../helper-hardhat-config")
       })
 
       describe("getBreedFromModdedRng", ()=>{
-         
+         it("reverts with range out of bounds", async ()=>{
+            await expect(randomIpfsNft.getBreedFromModdedRng(120))
+               .to
+               .be
+               .revertedWithCustomError(
+                  randomIpfsNft,
+                  "RandomIpfsNft__RangeOutOfBounds"
+               )
+         })
       })
    })
