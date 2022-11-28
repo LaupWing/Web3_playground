@@ -85,10 +85,10 @@ const { developmentChains } = require("../helper-hardhat-config")
                   const transaction_receipt = await transaction_response.wait(1)
                   const eventArgs = transaction_receipt.events[1].args
                   
-                  await vrfCoordinatorV2Mock.fulfillRandomWords(
-                     eventArgs.requestId.toString(),
-                     eventArgs.requester
-                  )
+                  // await vrfCoordinatorV2Mock.fulfillRandomWords(
+                  //    eventArgs.requestId.toString(),
+                  //    eventArgs.requester
+                  // )
                   resolve()
                }catch(e){
                   console.log(e)

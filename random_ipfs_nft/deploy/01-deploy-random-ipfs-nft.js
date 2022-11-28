@@ -4,6 +4,7 @@ const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata"
 const { verify } = require("../utils/verify")
 
 const images_location = "./images/"
+const FUND_AMOUNT = "1000000000000000000000"
 
 const metadataTemplate = {
    name: "",
@@ -36,6 +37,7 @@ module.exports = async ({getNamedAccounts, deployments})=>{
       const transaction_response = await vrfCoordinatorV2Mock.createSubscription()
       const transaction_receipt = await transaction_response.wait()
       subscriptionId = transaction_receipt.events[0].args.subId.toString()
+      await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
    }
    log("###########################################################")
    args = [
