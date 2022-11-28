@@ -93,7 +93,7 @@ const { developmentChains } = require("../helper-hardhat-config")
                   
                   await vrfCoordinatorV2Mock.fulfillRandomWords(
                      eventArgs.requestId.toString(),
-                     eventArgs.requester
+                     randomIpfsNft.address
                   )
                }catch(e){
                   console.log(e)
