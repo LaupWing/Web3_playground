@@ -79,11 +79,14 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable  {
          NUM_WORDS
       );
 
+      console.log("requestNft is triggerd");
       s_requestIdToSender[requestId] = msg.sender;
       emit NftRequested(requestId, msg.sender);
    }
 
    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override{
+      console.log("random words is triggerd");
+      console.log("random words is triggerd");
       address dogOwner = s_requestIdToSender[requestId];
       uint256 newItemId = s_tokenCounter;
       s_tokenCounter = s_tokenCounter + 1;

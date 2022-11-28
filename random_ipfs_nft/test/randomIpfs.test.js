@@ -76,6 +76,11 @@ const { developmentChains } = require("../helper-hardhat-config")
                   console.log(e)
                   resolve()
                })
+               randomIpfsNft.once("NftRequested", (e)=>{
+                  console.log("test")
+                  console.log(e)
+                  // resolve()
+               })
 
                try{
                   const mint_fee = (await randomIpfsNft.getMintFee()).toString()
