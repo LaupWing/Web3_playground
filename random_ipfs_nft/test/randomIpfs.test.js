@@ -71,10 +71,10 @@ const { developmentChains } = require("../helper-hardhat-config")
       describe("fulfillRandomWords", ()=>{
          it("mints NFT after random number has been returned", async ()=>{
             await new Promise(async (resolve, reject)=>{
-               // randomIpfsNft.once("NftMinted", (e)=>{
-               //    console.log("test")
-               //    console.log(e)
-               // })
+               randomIpfsNft.once("NftMinted", (e)=>{
+                  console.log("test")
+                  console.log(e)
+               })
 
                try{
                   const mint_fee = (await randomIpfsNft.getMintFee()).toString()
@@ -85,10 +85,10 @@ const { developmentChains } = require("../helper-hardhat-config")
                   const transaction_receipt = await transaction_response.wait(1)
                   const eventArgs = transaction_receipt.events[1].args
                   
-                  // await vrfCoordinatorV2Mock.fulfillRandomWords(
-                  //    eventArgs.requestId.toString(),
-                  //    eventArgs.requester
-                  // )
+                  await vrfCoordinatorV2Mock.fulfillRandomWords(
+                     eventArgs.requestId.toString(),
+                     eventArgs.requester
+                  )
                   resolve()
                }catch(e){
                   console.log(e)
