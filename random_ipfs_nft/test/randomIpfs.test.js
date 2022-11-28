@@ -74,6 +74,7 @@ const { developmentChains } = require("../helper-hardhat-config")
                randomIpfsNft.once("NftMinted", (e)=>{
                   console.log("test")
                   console.log(e)
+                  resolve()
                })
 
                try{
@@ -89,7 +90,6 @@ const { developmentChains } = require("../helper-hardhat-config")
                      eventArgs.requestId.toString(),
                      eventArgs.requester
                   )
-                  resolve()
                }catch(e){
                   console.log(e)
                   reject(e)
