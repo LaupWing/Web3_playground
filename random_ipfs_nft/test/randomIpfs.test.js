@@ -109,5 +109,9 @@ const { developmentChains } = require("../helper-hardhat-config")
                   "RandomIpfsNft__RangeOutOfBounds"
                )
          })
+
+         it("returns the PUG Breed", async ()=>{
+            console.log((await randomIpfsNft.getBreedFromModdedRng(10)))
+         })
       })
    })
