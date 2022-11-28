@@ -71,9 +71,10 @@ const { developmentChains } = require("../helper-hardhat-config")
       describe("fulfillRandomWords", ()=>{
          it("mints NFT after random number has been returned", async ()=>{
             await new Promise(async (resolve, reject)=>{
-               randomIpfsNft.once("NftMinted", (e)=>{
-                  console.log("test")
-                  console.log(e)
+               randomIpfsNft.once("NftMinted", async (e)=>{
+                  const tokenCounter = (await randomIpfsNft.getTokenCounter()).toString()
+                  console.log(tokenCounter)
+                  expect(tokenCounter).equal("1")
                   resolve()
                })
 
@@ -99,6 +100,6 @@ const { developmentChains } = require("../helper-hardhat-config")
       })
 
       describe("getBreedFromModdedRng", ()=>{
-
+         
       })
    })
