@@ -113,7 +113,13 @@ const { developmentChains } = require("../helper-hardhat-config")
          })
 
          it("returns the PUG Breed", async ()=>{
-            console.log((await randomIpfsNft.getBreedFromModdedRng(10)))
+            expect((await randomIpfsNft.getBreedFromModdedRng(7))).equal(0)
+         })
+         it("returns the SHIBA_INU Breed", async ()=>{
+            expect((await randomIpfsNft.getBreedFromModdedRng(30))).equal(1)
+         })
+         it("returns the ST_BERNARD Breed", async ()=>{
+            expect((await randomIpfsNft.getBreedFromModdedRng(95))).equal(2)
          })
       })
    })
