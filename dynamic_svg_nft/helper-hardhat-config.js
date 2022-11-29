@@ -2,12 +2,12 @@ const networkConfig = {
    31377: {
       name: "localhost",
       ethUsdPriceFeed: "",
-      callbackGasLimit: ""
+      callbackGasLimit: "",
    },
    5: {
       name: "localhost",
       ethUsdPriceFeed: "",
-      callbackGasLimit: ""
+      callbackGasLimit: "",
    },
 }
 
@@ -15,5 +15,5 @@ const developmentChains = ["hardhat", "localhost"]
 
 module.exports = {
    networkConfig,
-   developmentChains
+   developmentChains,
 }
