@@ -9,6 +9,8 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "base64-sol/base64.sol";
 import "hardhat/console.sol";
 
+error ERC721Metadata_URI_QueryFor_NonExistentToken();
+
 contract DynamicSvgNft is ERC721, Ownable {
    uint256 private s_tokenCounter;
    string private s_lowImageURI;
@@ -26,6 +28,15 @@ contract DynamicSvgNft is ERC721, Ownable {
       s_tokenCounter = 0;
       i_priceFeed = AggregatorV3Interface(priceFeedAddress);
 
+      s_lowImageURI = svgToImageURI(lowSvg);
+      s_highImageURI = svgToImageURI(highSvg);
+   }
+
+   function mintNft(int256 highValue) public {
+      s_tokenIdToHighValues[s_tokenCounter] = highValue;
+      _safeMint(msg.sender, s_tokenCounter);
+      s_tokenCounter = s_tokenCounter + 1;
+      emit CreatedNFT(s_tokenCounter, highValue);
    }
 
    function svgToImageURI(string memory svg) public pure returns (string memory) {
@@ -34,4 +45,38 @@ contract DynamicSvgNft is ERC721, Ownable {
       return string(abi.encodePacked(baseURL, svgBase64Encoded));
    }
 
+   function _baseURI() internal pure override returns (string memory) {
+      return "data:application/json;base64";
+   }
+
+   function tokenURI(uint256 tokenId) public view virtual override returns(string memory) {
+      if(!_exists(tokenId)){
+         revert ERC721Metadata_URI_QueryFor_NonExistentToken();
+      }
+      (, int256 price, , ,) = i_priceFeed.latestRoundData();
+      string memory imageURI = s_lowImageURI;
+
+      if(price >= s_tokenIdToHighValues[tokenId]){
+         imageURI = s_highImageURI;
+      }
+
+      return 
+         string(
+            abi.encodePacked(
+               _baseURI(),
+               Base64.encode(
+                  bytes(
+                     abi.encodePacked(
+                        '{"name": "',
+                        name(),
+                        '", "description":"An NFT that changes based on the Chainlink Feed", ',
+                        '"attributes": [{"trait_type": "coolness", "value": 100}], "image":"',
+                        imageURI,
+                        '"}'
+                     )
+                  )
+               )
+            )
+         );
+   }
 }
