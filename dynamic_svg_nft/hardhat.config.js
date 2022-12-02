@@ -25,12 +25,12 @@ module.exports = {
       hardhat: {
          chainId: 31337
       },
-      goerli: {
-         url: GOERLI_RPC_URL,
-         accounts: [PRIVATE_KEY],
-         chainId: 5,
-         blockConfirmations: 6,
-     },
+   //    goerli: {
+   //       url: GOERLI_RPC_URL,
+   //       accounts: [PRIVATE_KEY],
+   //       chainId: 5,
+   //       blockConfirmations: 6,
+   //   },
    },
    namedAccounts:{
       deployer: {
