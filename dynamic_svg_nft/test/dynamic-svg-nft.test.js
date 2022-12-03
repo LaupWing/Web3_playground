@@ -1,4 +1,4 @@
-const { network } = require("hardhat")
+const { network, ethers, getNamedAccounts, deployments } = require("hardhat")
 const { developmentChains } = require("../helper-hardhat-config")
 
 const lowSVGImageuri =
@@ -14,5 +14,15 @@ const lowTokenUri =
 !developmentChains.includes(network.name)
    ? describe.skip
    : describe("Dynamic SVG NFT unit tets", ()=>{
+      let dynamicSvgNft, deployer, mockV3Aggregator
+
+      beforeEach(async () => {
+         const accounts = await getNamedAccounts()
+         deployer = accounts.deployer
+         await deployments.fixture(["mocks", "dynamicsvg"])
+         dynamicSvgNft = await ethers.getContract("DynamicSvgNft")
+         mockV3Aggregator = await ethers.getContract("MockV3Aggregator")
+      })
+
       
    })
