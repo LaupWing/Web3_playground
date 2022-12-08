@@ -1,7 +1,5 @@
 const { ethers } = require("hardhat")
 
-const DECIMALS = "18"
-const INITIAL_PRICE = ""
 const developmentChains = ["hardhat", "localhost"]
 
 const networkConfig = {
@@ -22,7 +20,5 @@ const networkConfig = {
 
 module.exports = {
    developmentChains,
-   DECIMALS,
-   INITIAL_PRICE,
    networkConfig
 }
